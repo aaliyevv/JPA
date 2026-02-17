@@ -23,4 +23,8 @@ public class CourseEntity {
     private String studentName;
     private String studentSurname;
 
- 
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<StudentEntity> students;
+    //orphanRemoval - removed student automatically deleted from db
+
+}
