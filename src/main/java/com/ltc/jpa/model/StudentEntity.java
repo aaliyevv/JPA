@@ -27,5 +27,14 @@ public class StudentEntity {
     @Column(length = 20, nullable = false)
     private String surname;
 
+/*
+    @Column(length = 30, nullable = false, unique = true)
+    @Email(message = "Email has been used.")
+    private String email;
+*/
+
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    private CourseEntity course;
 
 }
