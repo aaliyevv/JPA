@@ -91,5 +91,37 @@ public class StudentServiceImpl implements StudentService {
 
     }
 
-    
+    @Override
+    public StudentResponseDTO update(Long id, StudentRequestDTO studentRequestDTO) {
+
+        StudentEntity studentEntity = studentRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student Not Found"));
+
+        studentEntity.setName(studentRequestDTO.getName());
+        studentEntity.setSurname(studentRequestDTO.getSurname());
+        studentEntity.setCourseStatus(studentRequestDTO.getCourseStatus());
+
+        StudentEntity updatedStudentEntity = studentRepo.save(studentEntity);
+
+        StudentResponseDTO studentResponseDTO = new StudentResponseDTO();
+        studentResponseDTO.setId(updatedStudentEntity.getId());
+        studentResponseDTO.setName(updatedStudentEntity.getName());
+        studentResponseDTO.setSurname(updatedStudentEntity.getSurname());
+        studentResponseDTO.setCourseStatus(updatedStudentEntity.getCourseStatus());
+
+        return studentResponseDTO;
+
+    }
+
+
+    @Override
+    public List<StudentResponseDTO> getStudentsByCourseId(Long courseId) {
+
+        List<StudentEntity> students = studentRepo.findByCourseId(courseId);
+
+        if (students.isEmpty()) {
+            throw new RuntimeException("Students related to this course not found: " + courseId);
+        }
+
+      
 }
