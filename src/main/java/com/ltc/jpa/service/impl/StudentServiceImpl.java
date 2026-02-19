@@ -58,4 +58,38 @@ public class StudentServiceImpl implements StudentService {
 
     }
 
-   
+    @Override
+    public StudentResponseDTO getById(Long id) {
+
+        StudentEntity studentEntity = studentRepo.findById(id).orElseThrow(
+                () -> new RuntimeException("Student NOt Found"));
+
+        StudentResponseDTO studentResponseDTO = new StudentResponseDTO();
+
+        studentResponseDTO.setId(studentEntity.getId());
+        studentResponseDTO.setName(studentEntity.getName());
+        studentResponseDTO.setSurname(studentEntity.getSurname());
+        studentResponseDTO.setCourseStatus(studentEntity.getCourseStatus());
+        studentResponseDTO.setCourseId(studentEntity.getCourse().getId());
+
+        return studentResponseDTO;
+
+    }
+
+    @Override
+    public List<StudentResponseDTO> getAll() {
+
+        return studentRepo.findAll().stream()
+                .map(studentEntity -> new StudentResponseDTO(
+                        studentEntity.getId(),
+                        studentEntity.getName(),
+                        studentEntity.getSurname(),
+                        studentEntity.getCourseStatus(),
+                        studentEntity.getCourse() != null ? studentEntity.getCourse().getId() :
+                                null))
+                .toList();
+
+    }
+
+    
+}
