@@ -15,6 +15,31 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/students")
 public class StudentController {
-    
+
+    private final StudentServiceImpl studentService;
+
+    public StudentController(StudentServiceImpl studentService) {
+        this.studentService = studentService;
+
+    }
+
+
+    @PostMapping("/create")
+    public ResponseEntity <String> create (@RequestBody StudentRequestDTO studentRequestDTO){
+
+        StudentResponseDTO studentResponseDTO = studentService.create(studentRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body("User Id: " + studentResponseDTO
+                + "\n User Name: " + studentResponseDTO.getName());
+
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity <String> update (@PathVariable Long id, @RequestBody StudentRequestDTO studentRequestDTO){
+
+        StudentResponseDTO studentResponseDTO = studentService.update(id, studentRequestDTO);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("User Id: " + studentResponseDTO.getId()
+                + "\n User Name: " + studentResponseDTO.getName());
+
+    }
 
 }
