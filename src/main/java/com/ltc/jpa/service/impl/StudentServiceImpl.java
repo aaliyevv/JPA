@@ -30,4 +30,32 @@ public class StudentServiceImpl implements StudentService {
     }
 
 
+    @Override
+    public StudentResponseDTO create(StudentRequestDTO studentRequestDTO) {
+
+        CourseEntity courseEntity = courseRepo.findById(studentRequestDTO.getCourseId())
+                .orElseThrow(() -> new RuntimeException(
+                        "Course Not Found" + studentRequestDTO.getCourseId()));
+
+        StudentEntity studentEntity = new StudentEntity();
+
+        studentEntity.setName(studentRequestDTO.getName());
+        studentEntity.setSurname(studentRequestDTO.getSurname());
+        studentEntity.setCourseStatus(studentRequestDTO.getCourseStatus());
+        studentEntity.setCourse(courseEntity);
+
+        StudentEntity studentDB = studentRepo.save(studentEntity);
+
+        StudentResponseDTO studentResponseDTO = new StudentResponseDTO();
+
+        studentResponseDTO.setId(studentDB.getId());
+        studentResponseDTO.setName(studentDB.getName());
+        studentResponseDTO.setSurname(studentDB.getSurname());
+        studentResponseDTO.setCourseStatus(studentDB.getCourseStatus());
+        studentResponseDTO.setCourseId(studentEntity.getCourse().getId());
+
+        return studentResponseDTO;
+
+    }
+
    
