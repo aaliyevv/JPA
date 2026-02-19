@@ -123,5 +123,26 @@ public class StudentServiceImpl implements StudentService {
             throw new RuntimeException("Students related to this course not found: " + courseId);
         }
 
-      
+        return students.stream()
+                .map(s -> new StudentResponseDTO(
+                        s.getId(),
+                        s.getName(),
+                        s.getSurname(),
+                        s.getCourseStatus(),
+                        s.getCourse() != null ? s.getCourse().getId() : null
+                ))
+                .toList();
+    }
+
+    @Override
+    public void delete(Long id) {
+
+        if (!studentRepo.existsById(id)) {
+            throw new RuntimeException("Student Not Found" + id);
+        }
+
+        studentRepo.deleteById(id);
+
+    }
+
 }
