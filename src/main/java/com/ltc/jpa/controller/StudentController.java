@@ -42,4 +42,31 @@ public class StudentController {
 
     }
 
+
+    @GetMapping("/{id}")
+    public ResponseEntity <StudentResponseDTO> findById (@PathVariable Long id){
+
+        StudentResponseDTO studentResponseDTO = studentService.getById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(studentResponseDTO);
+
+    }
+
+
+    @GetMapping
+    public ResponseEntity<List<StudentResponseDTO>>  getAll(){
+
+        List<StudentResponseDTO> studentResponseDTO = studentService.getAll();
+        return ResponseEntity.status(HttpStatus.OK).body(studentResponseDTO);
+    }
+
+
+    @DeleteMapping("{/id}")
+    public ResponseEntity<StudentResponseDTO> delete (@PathVariable Long id){
+
+        studentService.delete(id);
+        return ResponseEntity.notFound().build();
+
+    }
+
+
 }
