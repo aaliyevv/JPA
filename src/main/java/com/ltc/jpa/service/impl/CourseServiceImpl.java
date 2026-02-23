@@ -47,4 +47,38 @@ public class CourseServiceImpl implements CourseService {
 
         return courseResponseDTO;
     }
+
+    @Override
+    public CourseResponseDTO getById(Long id) {
+
+        CourseEntity courseEntity = courseRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Course Not Found" + id));
+
+        CourseResponseDTO courseResponseDTO = new CourseResponseDTO();
+
+        courseResponseDTO.setId(courseEntity.getId());
+        courseResponseDTO.setCourseName(courseEntity.getCourseName());
+        courseResponseDTO.setCourseCode(courseEntity.getCourseCode());
+        courseResponseDTO.setStudentName(courseEntity.getStudentName());
+        courseResponseDTO.setStudentSurname(courseEntity.getStudentSurname());
+
+        return courseResponseDTO;
+
+    }
+
+    @Override
+    public Page<CourseResponseDTO> getAll(Pageable pageable) {
+
+        return courseRepo.findAll(pageable)
+                .map(courseEntity -> new CourseResponseDTO(
+                        courseEntity.getId(),
+                        courseEntity.getCourseName(),
+                        courseEntity.getCourseCode(),
+                        courseEntity.getStudentName(),
+                        courseEntity.getStudentSurname()
+                ));
+    }
+
+
+    
 }
