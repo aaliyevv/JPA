@@ -80,5 +80,39 @@ public class CourseServiceImpl implements CourseService {
     }
 
 
-    
+    @Override
+    public CourseResponseDTO update(Long id, CourseRequestDTO courseRequestDTO) {
+
+        CourseEntity courseEntity = courseRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Course Not Found: " + id));
+
+        courseEntity.setCourseName(courseRequestDTO.getCourseName());
+        courseEntity.setCourseCode(courseRequestDTO.getCourseCode());
+        courseEntity.setStudentName(courseRequestDTO.getStudentName());
+        courseEntity.setStudentSurname(courseRequestDTO.getStudentSurname());
+
+        CourseEntity updated = courseRepo.save(courseEntity);
+
+        CourseResponseDTO courseResponseDTO = new CourseResponseDTO();
+
+        courseResponseDTO.setId((updated.getId()));
+        courseResponseDTO.setCourseName(updated.getCourseName());
+        courseResponseDTO.setCourseCode(updated.getCourseCode());
+        courseResponseDTO.setStudentName(updated.getStudentName());
+        courseResponseDTO.setStudentSurname(updated.getStudentSurname());
+
+        return courseResponseDTO;
+
+    }
+
+    @Override
+    public void delete(Long id) {if (!courseRepo.existsById(id)) {
+
+        throw new RuntimeException("Course Not Found: " + id);
+
+    }
+
+        courseRepo.deleteById(id);
+
+    }
 }
