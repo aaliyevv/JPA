@@ -47,6 +47,30 @@ public class CourseController {
 
     }
 
-    
+    @GetMapping("{/id}")
+    public ResponseEntity<CourseResponseDTO> getCourse(@PathVariable Long id) {
+
+        CourseResponseDTO courseResponseDTO = courseService.getById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(courseResponseDTO);
+
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<CourseResponseDTO>> getAllCourse(@ParameterObject
+                                                                @PageableDefault(page = 0, size = 10, sort = "id",
+                                                                        direction = Sort.Direction.DESC)
+                                                                Pageable pageable) {
+
+        Page<CourseResponseDTO> courseResponseDTO = courseService.getAll(pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(courseResponseDTO);
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteCourse(@PathVariable Long id) {
+
+        courseService.delete(id);
+        return ResponseEntity.notFound().build();
+    }
 
 }
