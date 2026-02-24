@@ -28,4 +28,25 @@ public class CourseController {
         this.courseRepo = courseRepo;
     }
 
+    @PostMapping("/create")
+    public ResponseEntity <String> createCourse(@RequestBody CourseRequestDTO courseRequestDTO) {
+
+        CourseResponseDTO courseResponseDTO = courseService.create(courseRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Course Id: " + courseResponseDTO.getId() +
+                "Course Name: " + courseResponseDTO.getCourseName());
+
+    }
+
+
+    @PutMapping("{/id}")
+    public ResponseEntity <CourseResponseDTO> updateCourse(@PathVariable Long id, @RequestBody CourseRequestDTO
+            courseRequestDTO) {
+
+        CourseResponseDTO courseResponseDTO = courseService.update(id, courseRequestDTO);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(courseResponseDTO);
+
+    }
+
+    
+
 }
