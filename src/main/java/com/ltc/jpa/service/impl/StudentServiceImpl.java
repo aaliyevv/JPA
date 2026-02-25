@@ -4,11 +4,9 @@ import com.ltc.jpa.dto.StudentRequestDTO;
 import com.ltc.jpa.dto.StudentResponseDTO;
 import com.ltc.jpa.model.CourseEntity;
 import com.ltc.jpa.model.StudentEntity;
-import com.ltc.jpa.model.enumaration.CourseStatus;
 import com.ltc.jpa.repo.CourseRepo;
 import com.ltc.jpa.repo.StudentRepo;
 import com.ltc.jpa.service.StudentService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
